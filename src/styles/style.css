@@ -30,3 +30,40 @@ html {
     height: 45px;
     margin-right: 1.2rem
 }
+
+.filter-cont{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 10rem
+}
+
+.filter-block{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 20rem;
+}
+
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#slider-round {
+    height: 10px;
+}
+
+#slider-round .noUi-connect {
+    background: #c0392b;
+}
+
+#slider-round .noUi-handle {
+    height: 18px;
+    width: 18px;
+    top: -5px;
+    right: -9px; /* half the width */
+    border-radius: 9px;
+}
