@@ -1,45 +1,50 @@
 import Control from "../common/control";
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
-// import {data} from './data';
+import {DataModel} from './CardModal';
 
-export class StorePage extends Control{
-    res: number[];
+export class StorePage extends Control  {
+    valueRangeQuantity: number[];
     filterCont!: Control<HTMLElement>;
-    valueRange: number[];
+    valueRangeSize: number[];
+    data: DataModel;
     constructor (parrentNode: HTMLElement){
         super (parrentNode);
         this.header();
         this.filter();
-        this.res = [];
-        this.valueRange = [];
-        // this.range();
-        
+        this.card();
+        this.valueRangeQuantity = [];
+        this.valueRangeSize = [];
+        this.data = new DataModel();
+        this.data.buildData().then(result=>{
+        //    console.log(result.dataUrl)
+        console.log(result.dataUrl)
+        })
     }
+    
     private header(){
         const header = new Control(this.node, 'div', 'header', '');
         new Control(header.node, 'div', 'logo', 'Online Store');
         const cart = new Control (header.node, 'img', 'imgLogo', '');
         cart.node.setAttribute("src", "../public/img/cart.jpg");
-        
     }
     public filter(){
         this.filterCont = new Control (this.node, 'div', 'filter-cont','');
         const filterBlocksOne = new Control(this.filterCont.node, 'div', `filter-block`, '');
         const filterTitleOne = new Control(filterBlocksOne.node, 'h4', 'filter-title', 'Фильтр по значению');
-        const filterByShape = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Производитель');
-        const buttonTypeOne = new Control(filterByShape.node, 'button', 'button-type', '');
-        const buttonTypeTwo = new Control(filterByShape.node, 'button', 'button-type', '');
-        const buttonTypeThree = new Control(filterByShape.node, 'button', 'button-type', '');
-        const filterByColor = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Цвет');
-        const buttonColorOne = new Control(filterByColor.node, 'button', 'button-color-one', '');
-        const buttonColorTwo = new Control(filterByColor.node, 'button', 'button-color-two', '');
-        const buttonColorThree = new Control(filterByColor.node, 'button', 'button-color-three', '');
-        const filterBySize = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Размер');
-        const buttonSizeOne = new Control(filterBySize.node, 'button', 'button-size-one', '');
-        const buttonSizeTwo = new Control(filterBySize.node, 'button', 'button-size-two', '');
-        const buttonSizeThree = new Control(filterBySize.node, 'button', 'button-size-three', '');
-        const buttonPopular = new Control (filterBlocksOne.node, 'button', 'button-popular', '')
+        const filterByShape = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Производитель: ');
+        const buttonTypeOne = new Control(filterByShape.node, 'button', 'button-type', 'Brusko');
+        const buttonTypeTwo = new Control(filterByShape.node, 'button', 'button-type', 'Glitch Souse');
+        const buttonTypeThree = new Control(filterByShape.node, 'button', 'button-type', 'Fruit Fresh');
+        const buttonTypeFour = new Control(filterByShape.node, 'button', 'button-type', 'Maxwells');
+        const filterByColor = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Крепость: ');
+        const buttonColorOne = new Control(filterByColor.node, 'button', 'button-color-one', '20');
+        const buttonColorTwo = new Control(filterByColor.node, 'button', 'button-color-two', '40');
+        const buttonColorThree = new Control(filterByColor.node, 'button', 'button-color-three', '50');
+        const filterBySize = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Куллер: ');
+        const buttonSizeOne = new Control(filterBySize.node, 'button', 'button-size-one', 'Есть');
+        const buttonSizeTwo = new Control(filterBySize.node, 'button', 'button-size-two', 'Нет');
+        const buttonPopular = new Control (filterBlocksOne.node, 'button', 'button-popular', 'Популярные')
         const filterBlocksTwo = new Control(this.filterCont.node, 'div', `filter-block`, '');
         const filterTitleTwo = new Control(filterBlocksTwo.node, 'h4', 'filter-title', 'Фильтры по диапазону');
         const filterRangeTitleOne = new Control(filterBlocksTwo.node, 'h5', 'filter-range-title-one', 'Количество на складе:')
@@ -48,21 +53,21 @@ export class StorePage extends Control{
         filterRange.node.setAttribute('id', 'filterRange')
         const range: noUiSlider.target = document.getElementById('filterRange')!;
         noUiSlider.create(range , {
-            start: [1, 20],
+            start: [1, 18],
             connect: true,
             step: 1,
             range: {
-                'min': 0,
-                'max': 20
+                'min': 1,
+                'max': 18
             }
         });
 
         filterRangeValue.node.setAttribute('id', 'filterRangeValue');
         const snapValues = document.getElementById('filterRangeValue')!;
+        let valueRangeQuantity: number[] = [];
         range.noUiSlider?.on('update', function (values: (string | number)[]):void {
             snapValues.innerHTML = values.join(' - ');
-            let res: number[] = [];
-            values.forEach((str)=>{res.push(Number(str.toString().replace('.00', '')))});
+            values.forEach((str)=>{valueRangeQuantity.push(Number(str.toString().replace('.00', '')))});
         });
 
         const filterRangeTitleTwo = new Control(filterBlocksTwo.node, 'h5', 'filter-range-title-one', 'Год выхода на рынок:')
@@ -72,21 +77,21 @@ export class StorePage extends Control{
         filterRangeTwo.node.setAttribute('id', 'filterRangeTwo')
         const rangeTwo: noUiSlider.target = document.getElementById('filterRangeTwo')!;
         noUiSlider.create(rangeTwo , {
-            start: [2001, 2022],
+            start: [30, 50],
             connect: true,
-            step: 1,
+            step: 10,
             range: {
-                'min': 2000,
-                'max': 2022
+                'min': 30,
+                'max': 50
             }
         });
 
         filterRangeValue2.node.setAttribute('id', 'filterRangeValue2');
         const snapValues2 = document.getElementById('filterRangeValue2')!;
+        let valueRangeSize: number[] = [];
         rangeTwo.noUiSlider?.on('update', function (values: (string | number)[]):void {
             snapValues2.innerHTML = values.join(' - ');
-            let res: number[] = [];
-            values.forEach((str)=>{res.push(Number(str.toString().replace('.00', '')))});
+            values.forEach((str)=>{valueRangeSize.push(Number(str.toString().replace('.00', '')))});
         });
 
         const filterBlocksThree = new Control(this.filterCont.node, 'div', `filter-block`, '');
@@ -95,6 +100,7 @@ export class StorePage extends Control{
         const filterInput = new Control(filterByName.node, 'input', 'filter-input', '');
         filterInput.node.setAttribute('placeholder', 'Введите текст')
         filterInput.node.setAttribute('type', 'text')
+        filterInput.node.focus();
         const filterTitleSorting = new Control(filterBlocksThree.node, 'h4', 'filter-title', 'Сортировка');
         const filterFormSorting = new Control(filterBlocksThree.node, 'form', 'filter-form', '');
         const filterAlphabetASorting = new Control(filterFormSorting.node, 'div', 'filter-sorting', '');
@@ -127,9 +133,22 @@ export class StorePage extends Control{
         filterSortingInputFour.node.setAttribute('type', 'radio')
         const filterButtonReset = new Control (filterBlocksThree.node, 'button', 'filter-button-reset', 'Сбросить фильтры')
         const filterButtonSettings = new Control (filterBlocksThree.node, 'button', 'filter-button-settings', 'Сбросить настройки')
-        
     }
-    // public range(){
-        
-    // }
+    public card(){
+        const cardsCont = new Control (this.node, 'div','cards-Cont','')
+        this.data.dataUrl.forEach((data, i)=>{
+        const cards = new Control (cardsCont.node, 'div','cards','')
+        new Control(cards.node, 'div','cardsTitle',`${data.name[i]}`)
+        const cardImage = new Control(cards.node, 'img','cardsImage','')
+        cardImage.node.setAttribute('src', `../asset/resourses/${i}.jpg`)
+        new Control(cards.node, 'div','cardsQuantity',`${data.quantity[i]}`)
+        new Control(cards.node, 'div','cardsStrength',`${data.strength[i]}`)
+        new Control(cards.node, 'div','cardsShape',`${data.shape[i]}`)
+        let cardFavorite:string;
+        // if (data.favorite[i] === false) {cardFavorite="Нет"}
+        // else {cardFavorite="Да"}
+        // new Control(cards.node, 'div','cardsFavorite',`${cardFavorite}`)
+        new Control(cards.node, 'div','cardsSize',`${data.size[i]}`)
+        })
+    }
 }
