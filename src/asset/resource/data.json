@@ -98,5 +98,115 @@
       "strength": 20,
       "size": 50,
       "favorite": false
+    } ,
+    {
+      "num": 11,
+      "name": "Brusko - Энергетик с манго и кулером",
+      "quantity": 15,
+      "cooler": "без куллера",
+      "shape": "Brusko",
+      "strength": 20,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 12,
+      "name": "Brusko - Таёжный морс",
+      "quantity": 4,
+      "cooler": "с куллером",
+      "shape": "Brusko",
+      "strength": 20,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 13,
+      "name": "Brusko - Энергетик с яблоком и киви с холодком",
+      "quantity": 4,
+      "cooler": "с куллером",
+      "shape": "Brusko",
+      "strength": 20,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 14,
+      "name": "Brusko - Ментол",
+      "quantity": 5,
+      "cooler": "без куллера",
+      "shape": "Brusko",
+      "strength": 20,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 15,
+      "name": "XL - Ледяная кола",
+      "quantity": 5,
+      "cooler": "с куллером",
+      "shape": "XL",
+      "strength": 20,
+      "size": 60,
+      "favorite": true
+    },
+    {
+      "num": 16,
+      "name": "BOOM BIG Ледяная черника",
+      "quantity": 11,
+      "cooler": "с куллером",
+      "shape": "BOOM BIG",
+      "strength": 20,
+      "size": 60,
+      "favorite": false
+    },
+    {
+      "num": 17,
+      "name": "ICE PARADISE - Черника, арбуз и гранат",
+      "quantity": 17,
+      "cooler": "с куллером",
+      "shape": "ICE PARADISE",
+      "strength": 20,
+      "size": 30,
+      "favorite": true
+    },
+    {
+      "num": 18,
+      "name": "ICE PARADISE - Киви с клубникой с кулером",
+      "quantity": 1,
+      "cooler": "с куллером",
+      "shape": "ICE PARADISE",
+      "strength": 20,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 19,
+      "name": "Mr.CAPTAIN BLACK - Классический трубочный табак",
+      "quantity": 2,
+      "cooler": "без куллера",
+      "shape": "Mr.CAPTAIN BLACK",
+      "strength": 40,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 20,
+      "name": "XL- Микс киви, гуавы и кактуса",
+      "quantity": 15,
+      "cooler": "без куллера",
+      "shape": "XL",
+      "strength": 20,
+      "size": 60,
+      "favorite": false
+    } ,
+    {
+      "num": 21,
+      "name": "BOOM BIG Ледяной банан",
+      "quantity": 1,
+      "cooler": "с куллером",
+      "shape": "BOOM BIG",
+      "strength": 20,
+      "size": 60,
+      "favorite": false
     } 
   ]
