@@ -1,0 +1,102 @@
+[
+    {
+      "num": 1,
+      "name": "Brusko - Фруктовое драже",
+      "quantity": 7,
+      "cooler": "с куллером",
+      "shape": "Brusko",
+      "strength": 50,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 2,
+      "name": "Brusko - Вишневая кола",
+      "quantity": 3,
+      "cooler": "с куллером",
+      "shape": "Brusko",
+      "strength": 50,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 3,
+      "name": "Brusko - Кокосовый десерт - Вафли с кокосом и сливочными нотками",
+      "quantity": 4,
+      "cooler": "без куллера",
+      "shape": "Brusko",
+      "strength": 20,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 4,
+      "name": "Brusko - Шоколад с лесным орехом",
+      "quantity": 2,
+      "cooler": "без куллера",
+      "shape": "Brusko",
+      "strength": 20,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 5,
+      "name": "Glitch Souse - Ледяной виноградный сок",
+      "quantity": 6,
+      "cooler": "с куллером",
+      "shape": "Glitch Souse",
+      "strength": 40,
+      "size": 40,
+      "favorite": true
+    },
+    {
+      "num": 6,
+      "name": "Glitch Souse - Виноградный сок",
+      "quantity": 9,
+      "cooler": "без куллера",
+      "shape": "Glitch Souse",
+      "strength": 20,
+      "size": 40,
+      "favorite": false
+    },
+    {
+      "num": 7,
+      "name": "Fresh Fruits - Освежающий виноград",
+      "quantity": 18,
+      "cooler": "с куллером",
+      "shape": "Fresh Fruits",
+      "strength": 40,
+      "size": 30,
+      "favorite": true
+    },
+    {
+      "num": 8,
+      "name": "Fresh Fruits - Сладкий манго",
+      "quantity": 1,
+      "cooler": "без куллера",
+      "shape": "Fresh Fruits",
+      "strength": 40,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 9,
+      "name": "Maxwells - Мята, хвоя и лесные ягоды",
+      "quantity": 7,
+      "cooler": "с куллером",
+      "shape": "Maxwells",
+      "strength": 20,
+      "size": 30,
+      "favorite": false
+    },
+    {
+      "num": 10,
+      "name": "Maxwells - Кисло-сладкая жвачка с киви и яблоком",
+      "quantity": 11,
+      "cooler": "без куллера",
+      "shape": "Maxwells",
+      "strength": 20,
+      "size": 50,
+      "favorite": false
+    } 
+  ]
