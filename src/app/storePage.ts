@@ -17,7 +17,9 @@ export class StorePage extends Control  {
     valueRangeSize: number[];
     buttonTypeOne: Control<HTMLElement>|null=null
     model: DataModel;
+    onClick?: () => void;
     cardsCont!: Control<HTMLElement>
+    counter!: Control<HTMLElement>;
     constructor (parrentNode: HTMLElement, model: DataModel){
         super (parrentNode);
         this.model = model;
@@ -39,7 +41,7 @@ export class StorePage extends Control  {
         const header = new Control(this.node, 'div', 'header', '');
         new Control(header.node, 'div', 'logo', 'Online Store');
         const cart = new Control (header.node, 'img', 'imgLogo', '');
-        cart.node.setAttribute("src", "../public/img/cart.jpg");
+        cart.node.setAttribute("src", "./public/img/cart.jpg");
     }
     public filter(){
         this.filterCont = new Control (this.node, 'div', 'filter-cont','');
@@ -151,18 +153,28 @@ export class StorePage extends Control  {
         const filterButtonSettings = new Control (filterBlocksThree.node, 'button', 'filter-button-settings', 'Сбросить настройки')
     }
     public card(modelData: IData[]){
-        this.cardsCont = new Control (this.node, 'div','cards-cont','')
-        // console.log(this.model.dataUrl);
-        
+        this.cardsCont = new Control (this.node, 'div','cards-cont','');
+        let cont: number;
+        this.counter = new Control(this.node, 'div', 'counter', `${cont=0}`);
         this.model.dataUrl.forEach(data=>{
-            const cards = new Control (this.cardsCont.node, 'div','cards','')
-            const cardImage = new Control(cards.node, 'img','cardsImage','')
-            new Control(cards.node, 'div','cardsTitle',`${data.name}`)
-            cardImage.node.setAttribute('src', `./public/img/${data.num}.jpg`)
-            new Control(cards.node, 'div','cardsQuantity',`Количество на складе: ${data.quantity}`)
-            new Control(cards.node, 'div','cardsStrength',`Крепость: ${data.strength}`)
-            new Control(cards.node, 'div','cardsShape',`Изготовитель: ${data.shape}`)
-            new Control(cards.node, 'div','cardsShape',`Куллер: ${data.cooler}`)
+            const cards = new Control (this.cardsCont.node, 'div','cards','');
+            cards.node.setAttribute('id', 'cards');
+            cards.node.onclick = () => {
+                if (!cards.node.classList.contains("cards-plus")){
+                    cards.node.classList.add('cards-plus')
+                    this.counter.node.textContent = `${cont++}`
+                }
+                else {
+                    cards.node.classList.remove('cards-plus');
+                    this.counter.node.textContent = `${cont--}`
+                };}
+            const cardImage = new Control(cards.node, 'img','cardsImage','');
+            new Control(cards.node, 'div','cardsTitle',`${data.name}`);
+            cardImage.node.setAttribute('src', `./public/img/${data.num}.jpg`);
+            new Control(cards.node, 'div','cardsQuantity',`Количество на складе: ${data.quantity}`);
+            new Control(cards.node, 'div','cardsStrength',`Крепость: ${data.strength}`);
+            new Control(cards.node, 'div','cardsShape',`Изготовитель: ${data.shape}`);
+            new Control(cards.node, 'div','cardsShape',`Куллер: ${data.cooler}`);
             let cardFavorite:string;
             if (data.favorite === false) {cardFavorite="Нет"}
             else {cardFavorite="Да"}
@@ -187,6 +199,7 @@ export class StorePage extends Control  {
 
 export class Filter extends StorePage{
     filterAll: Filters;
+    buttonTypeOne!: Control<HTMLElement>;
     constructor(parrentNode: HTMLElement, model: DataModel){
         super(parrentNode, model);
         const filterAll = {
@@ -196,13 +209,17 @@ export class Filter extends StorePage{
             favorite: [true, false]
         }
         this.filterAll = filterAll;
+        this.filterByName();
     }
     public filterByName(){
+        this.buttonTypeOne.node.onclick = () =>{
         setTimeout(() => {
             const filterByName = this.model.dataUrl.filter((card)=>{
+                // return card.name = this.filterAll.name
                 return card.name = 'Brusko'
             });
-            this.card(filterByName)
-        }, 100);
+            this.card(filterByName);
+            console.log(filterByName)
+        }, 100);}
     }
 }   
