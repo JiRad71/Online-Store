@@ -158,7 +158,7 @@ export class StorePage extends Control  {
             const cards = new Control (this.cardsCont.node, 'div','cards','')
             const cardImage = new Control(cards.node, 'img','cardsImage','')
             new Control(cards.node, 'div','cardsTitle',`${data.name}`)
-            cardImage.node.setAttribute('src', `../public/img/${data.num}.jpg`)
+            cardImage.node.setAttribute('src', `./public/img/${data.num}.jpg`)
             new Control(cards.node, 'div','cardsQuantity',`Количество на складе: ${data.quantity}`)
             new Control(cards.node, 'div','cardsStrength',`Крепость: ${data.strength}`)
             new Control(cards.node, 'div','cardsShape',`Изготовитель: ${data.shape}`)
