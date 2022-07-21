@@ -444,3 +444,13 @@ cursor: pointer !important;
     right: 5%;
     font-size: 20px;
 }
+.wrapperPoisk {
+    display: flex;
+    flex-direction: row;
+}
+
+.lupa{
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
