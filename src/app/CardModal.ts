@@ -1,6 +1,6 @@
 import data from "../asset/resource/data.json"
 
-interface IData {
+export interface IData {
     num: string,
     name: string,
     quantity: number,

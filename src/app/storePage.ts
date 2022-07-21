@@ -2,6 +2,14 @@ import Control from "../common/control";
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 import {DataModel} from './CardModal';
+import {IData} from './CardModal'
+
+interface Filters {
+    name: string[], 
+    strenght: number[],
+    cooler: string[],
+    favorite: boolean[]
+}
 
 export class StorePage extends Control  {
     valueRangeQuantity: number[];
@@ -9,6 +17,7 @@ export class StorePage extends Control  {
     valueRangeSize: number[];
     buttonTypeOne: Control<HTMLElement>|null=null
     model: DataModel;
+    cardsCont!: Control<HTMLElement>
     constructor (parrentNode: HTMLElement, model: DataModel){
         super (parrentNode);
         this.model = model;
@@ -18,7 +27,8 @@ export class StorePage extends Control  {
         this.header();
         this.filter();
         setTimeout(() => {
-            this.card(); 
+            this.card(this.model.dataUrl); 
+            console.log(this.model.dataUrl)
         }, 100); 
         setTimeout(() => {
             this.footer();  
@@ -40,6 +50,9 @@ export class StorePage extends Control  {
         const buttonTypeTwo = new Control(filterByShape.node, 'button', 'button-type', 'Glitch Souse');
         const buttonTypeThree = new Control(filterByShape.node, 'button', 'button-type', 'Fruit Fresh');
         const buttonTypeFour = new Control(filterByShape.node, 'button', 'button-type', 'Maxwells');
+        const buttonType5 = new Control(filterByShape.node, 'button', 'button-type', 'XL');
+        const buttonType6 = new Control(filterByShape.node, 'button', 'button-type', 'BOOM BIG');
+        const buttonType7 = new Control(filterByShape.node, 'button', 'button-type', 'ICE PARADISE');
         const filterByColor = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Крепость: ');
         const buttonColorOne = new Control(filterByColor.node, 'button', 'button-color-one', '20');
         const buttonColorTwo = new Control(filterByColor.node, 'button', 'button-color-two', '40');
@@ -72,7 +85,7 @@ export class StorePage extends Control  {
             snapValues.innerHTML = values.join(' - ');
             values.forEach((str)=>{valueRangeQuantity.push(Number(str.toString().replace('.00', '')))});
         });
-
+        console.log(valueRangeQuantity);
         const filterRangeTitleTwo = new Control(filterBlocksTwo.node, 'h5', 'filter-range-title-one', 'Объем банки:')
         const filterRangeTwo = new Control(filterBlocksTwo.node, 'div', 'filter-range', '')
         const filterRangeValue2 = new Control(filterBlocksTwo.node, 'div', 'filter-range-value-upper', '')
@@ -137,12 +150,12 @@ export class StorePage extends Control  {
         const filterButtonReset = new Control (filterBlocksThree.node, 'button', 'filter-button-reset', 'Сбросить фильтры')
         const filterButtonSettings = new Control (filterBlocksThree.node, 'button', 'filter-button-settings', 'Сбросить настройки')
     }
-    public card(){
-        const cardsCont = new Control (this.node, 'div','cards-cont','')
+    public card(modelData: IData[]){
+        this.cardsCont = new Control (this.node, 'div','cards-cont','')
         // console.log(this.model.dataUrl);
         
         this.model.dataUrl.forEach(data=>{
-            const cards = new Control (cardsCont.node, 'div','cards','')
+            const cards = new Control (this.cardsCont.node, 'div','cards','')
             const cardImage = new Control(cards.node, 'img','cardsImage','')
             new Control(cards.node, 'div','cardsTitle',`${data.name}`)
             cardImage.node.setAttribute('src', `../public/img/${data.num}.jpg`)
@@ -170,3 +183,26 @@ export class StorePage extends Control  {
         footerAnchorRSS.node.setAttribute('href', 'https://rollingscopes.com/')
     }
 }
+
+
+export class Filter extends StorePage{
+    filterAll: Filters;
+    constructor(parrentNode: HTMLElement, model: DataModel){
+        super(parrentNode, model);
+        const filterAll = {
+            name: ['Brusko','Glith Souse', 'Fruit Fresh', 'MaxWells', 'XL', 'BOOM BIG', 'ICE PARADISE'],
+            strenght: [20, 40, 50],
+            cooler: ['с куллером', 'без куллера'],
+            favorite: [true, false]
+        }
+        this.filterAll = filterAll;
+    }
+    public filterByName(){
+        setTimeout(() => {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.name = 'Brusko'
+            });
+            this.card(filterByName)
+        }, 100);
+    }
+}   
