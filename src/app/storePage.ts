@@ -35,6 +35,8 @@ export class StorePage extends Control  {
     buttonSizeTwo!: Control<HTMLElement>;
     buttonPopular!: Control<HTMLElement>;
     filterInput!: Control<HTMLElement>;
+    lupa!: Control<HTMLElement>;
+    filterButtonReset!: Control<HTMLElement>;
     constructor (parrentNode: HTMLElement, model: DataModel){
         super (parrentNode, 'div', 'wrapper');
         this.model = model;
@@ -53,9 +55,10 @@ export class StorePage extends Control  {
         this.filter();
         setTimeout(() => {
             this.card(this.model.dataUrl); 
-            console.log(this.model.dataUrl)
         }, 100); 
         this.filterByName();
+        // this.poisk();
+        this.reset();
         setTimeout(() => {
             this.footer();  
         }, 101); 
@@ -112,7 +115,6 @@ export class StorePage extends Control  {
             snapValues.innerHTML = values.join(' - ');
             values.forEach((str)=>{valueRangeQuantity.push(Number(str.toString().replace('.00', '')))});
         });
-        console.log(valueRangeQuantity);
         const filterRangeTitleTwo = new Control(filterBlocksTwo.node, 'h5', 'filter-range-title-one', 'Объем банки:')
         const filterRangeTwo = new Control(filterBlocksTwo.node, 'div', 'filter-range', '')
         const filterRangeValue2 = new Control(filterBlocksTwo.node, 'div', 'filter-range-value-upper', '')
@@ -135,15 +137,18 @@ export class StorePage extends Control  {
         rangeTwo.noUiSlider?.on('update', function (values: (string | number)[]):void {
             snapValues2.innerHTML = values.join(' - ');
             values.forEach((str)=>{valueRangeSize.push(Number(str.toString().replace('.00', '')))});
-            console.log(valueRangeSize)
         });
 
         const filterBlocksThree = new Control(this.filterCont.node, 'div', `filter-block`, '');
         const filterByName = new Control(filterBlocksThree.node, 'div', `filter-name`, '');
         const filterTitleName = new Control(filterByName.node, 'h4', 'filter-title', 'Поиск');
-        this.filterInput = new Control(filterByName.node, 'input', 'filter-input', '');
+        const wrapperPoisk = new Control(filterByName.node, 'div', 'wrapperPoisk', '')
+        this.filterInput = new Control(wrapperPoisk.node, 'input', 'filter-input', '');
+        this.lupa = new Control(wrapperPoisk.node, 'img', 'lupa', '')
+        this.lupa.node.setAttribute('src', './public/img/lupa.jpg')
         this.filterInput.node.setAttribute('placeholder', 'Введите текст')
-        this.filterInput.node.setAttribute('type', 'text')
+        this.filterInput.node.setAttribute('value', ' ')
+        this.filterInput.node.setAttribute('type', 'search')
         this.filterInput.node.setAttribute('id', 'input')
         this.filterInput.node.focus();
         const filterTitleSorting = new Control(filterBlocksThree.node, 'h4', 'filter-title', 'Сортировка');
@@ -176,7 +181,7 @@ export class StorePage extends Control  {
         filterSortingInputFour.node.setAttribute('id', 'year2')
         filterSortingInputFour.node.setAttribute('name', 'sorting')
         filterSortingInputFour.node.setAttribute('type', 'radio')
-        const filterButtonReset = new Control (filterBlocksThree.node, 'button', 'filter-button-reset', 'Сбросить фильтры')
+        this.filterButtonReset = new Control (filterBlocksThree.node, 'button', 'filter-button-reset', 'Сбросить фильтры')
         const filterButtonSettings = new Control (filterBlocksThree.node, 'button', 'filter-button-settings', 'Сбросить настройки')
     }
     public card(modelData: IData[]){
@@ -229,7 +234,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonTypeTwo.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -238,7 +242,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonTypeThree.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -247,7 +250,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonTypeFour.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -256,7 +258,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonType5.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -265,7 +266,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonType6.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -274,7 +274,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonType7.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -283,7 +282,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonColorOne.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -292,7 +290,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonColorTwo.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -301,7 +298,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonColorThree.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -310,7 +306,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonSizeOne.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -319,7 +314,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonSizeTwo.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -328,7 +322,6 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
         this.buttonPopular.node.onclick = ()=> {
             const filterByName = this.model.dataUrl.filter((card)=>{
@@ -337,21 +330,24 @@ export class StorePage extends Control  {
             this.cardsCont.destroy();
             this.counter.destroy();
             this.card(filterByName);
-            console.log(filterByName)
         }
     }
-    poisk (){
-        const d= (document.getElementById('input') as HTMLInputElement).value
-        
+    public poisk (){
+        this.lupa.node.onclick = ()=>{
+            let d = (document.getElementById('input') as HTMLInputElement).value.trim().toLowerCase();
+            const array = this.model.dataUrl.filter((data)=>{
+                d == data.name.toLowerCase();
+            })
+            this.card(array);
+            }
+    }
+
+    public reset(){
+        this.filterButtonReset.node.onclick = ()=> {
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(this.model.dataUrl)
+        }
     }
 }
 
-
-export class Filter extends StorePage{
-   
-    constructor(parrentNode: HTMLElement, model: DataModel){
-        super(parrentNode, model);
-        
-    }
-    
-}   
