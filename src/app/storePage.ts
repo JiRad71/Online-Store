@@ -3,6 +3,7 @@ import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 import {DataModel} from './CardModal';
 import {IData} from './CardModal'
+import { throws } from "assert";
 
 interface Filters {
     name: string[], 
@@ -15,26 +16,50 @@ export class StorePage extends Control  {
     valueRangeQuantity: number[];
     filterCont!: Control<HTMLElement>;
     valueRangeSize: number[];
-    buttonTypeOne: Control<HTMLElement>|null=null
+    buttonTypeOne!: Control<HTMLElement>;
     model: DataModel;
     onClick?: () => void;
     cardsCont!: Control<HTMLElement>
     counter!: Control<HTMLElement>;
+    filterAll: Filters;
+    buttonTypeTwo!: Control<HTMLElement>;
+    buttonTypeThree!: Control<HTMLElement>;
+    buttonTypeFour!: Control<HTMLElement>;
+    buttonType5!: Control<HTMLElement>;
+    buttonType6!: Control<HTMLElement>;
+    buttonType7!: Control<HTMLElement>;
+    buttonColorOne!: Control<HTMLElement>;
+    buttonColorTwo!: Control<HTMLElement>;
+    buttonColorThree!: Control<HTMLElement>;
+    buttonSizeOne!: Control<HTMLElement>;
+    buttonSizeTwo!: Control<HTMLElement>;
+    buttonPopular!: Control<HTMLElement>;
+    filterInput!: Control<HTMLElement>;
     constructor (parrentNode: HTMLElement, model: DataModel){
-        super (parrentNode);
+        super (parrentNode, 'div', 'wrapper');
         this.model = model;
         const m = this.model.buildData().then(data=> data.dataUrl);
         this.valueRangeQuantity = [];
         this.valueRangeSize = [];
+        const filterAll = {
+            name: ['Brusko','Glitch Souse', 'Fresh Fruits', 'Maxwells', 'XL', 'BOOM BIG', 'ICE PARADISE'],
+            strenght: [20, 40, 50],
+            cooler: ['с куллером', 'без куллера'],
+            favorite: [true, false]
+        }
+        this.filterAll = filterAll;
+        const Wrapper = new Control (this.node, 'div', 'wrapper', '')
         this.header();
         this.filter();
         setTimeout(() => {
             this.card(this.model.dataUrl); 
             console.log(this.model.dataUrl)
         }, 100); 
+        this.filterByName();
         setTimeout(() => {
             this.footer();  
         }, 101); 
+        
     }
     
     private header(){
@@ -49,20 +74,20 @@ export class StorePage extends Control  {
         const filterTitleOne = new Control(filterBlocksOne.node, 'h4', 'filter-title', 'Фильтр по значению');
         const filterByShape = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Производитель: ');
         this.buttonTypeOne = new Control(filterByShape.node, 'button', 'button-type', 'Brusko');
-        const buttonTypeTwo = new Control(filterByShape.node, 'button', 'button-type', 'Glitch Souse');
-        const buttonTypeThree = new Control(filterByShape.node, 'button', 'button-type', 'Fruit Fresh');
-        const buttonTypeFour = new Control(filterByShape.node, 'button', 'button-type', 'Maxwells');
-        const buttonType5 = new Control(filterByShape.node, 'button', 'button-type', 'XL');
-        const buttonType6 = new Control(filterByShape.node, 'button', 'button-type', 'BOOM BIG');
-        const buttonType7 = new Control(filterByShape.node, 'button', 'button-type', 'ICE PARADISE');
+        this.buttonTypeTwo = new Control(filterByShape.node, 'button', 'button-type', 'Glitch Souse');
+        this.buttonTypeThree = new Control(filterByShape.node, 'button', 'button-type', 'Fruit Fresh');
+        this.buttonTypeFour = new Control(filterByShape.node, 'button', 'button-type', 'Maxwells');
+        this.buttonType5 = new Control(filterByShape.node, 'button', 'button-type', 'XL');
+        this.buttonType6 = new Control(filterByShape.node, 'button', 'button-type', 'BOOM BIG');
+        this.buttonType7 = new Control(filterByShape.node, 'button', 'button-type', 'ICE PARADISE');
         const filterByColor = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Крепость: ');
-        const buttonColorOne = new Control(filterByColor.node, 'button', 'button-color-one', '20');
-        const buttonColorTwo = new Control(filterByColor.node, 'button', 'button-color-two', '40');
-        const buttonColorThree = new Control(filterByColor.node, 'button', 'button-color-three', '50');
+        this.buttonColorOne = new Control(filterByColor.node, 'button', 'button-color-one', '20');
+        this.buttonColorTwo = new Control(filterByColor.node, 'button', 'button-color-two', '40');
+        this.buttonColorThree = new Control(filterByColor.node, 'button', 'button-color-three', '50');
         const filterBySize = new Control(filterBlocksOne.node, 'div', 'filter-by-shape', 'Куллер: ');
-        const buttonSizeOne = new Control(filterBySize.node, 'button', 'button-size-one', 'Есть');
-        const buttonSizeTwo = new Control(filterBySize.node, 'button', 'button-size-two', 'Нет');
-        const buttonPopular = new Control (filterBlocksOne.node, 'button', 'button-popular', 'Популярные')
+        this.buttonSizeOne = new Control(filterBySize.node, 'button', 'button-size-one', 'Есть');
+        this.buttonSizeTwo = new Control(filterBySize.node, 'button', 'button-size-two', 'Нет');
+        this.buttonPopular = new Control (filterBlocksOne.node, 'button', 'button-popular', 'Популярные')
         const filterBlocksTwo = new Control(this.filterCont.node, 'div', `filter-block`, '');
         const filterTitleTwo = new Control(filterBlocksTwo.node, 'h4', 'filter-title', 'Фильтры по диапазону');
         const filterRangeTitleOne = new Control(filterBlocksTwo.node, 'h5', 'filter-range-title-one', 'Количество на складе:')
@@ -110,15 +135,17 @@ export class StorePage extends Control  {
         rangeTwo.noUiSlider?.on('update', function (values: (string | number)[]):void {
             snapValues2.innerHTML = values.join(' - ');
             values.forEach((str)=>{valueRangeSize.push(Number(str.toString().replace('.00', '')))});
+            console.log(valueRangeSize)
         });
 
         const filterBlocksThree = new Control(this.filterCont.node, 'div', `filter-block`, '');
         const filterByName = new Control(filterBlocksThree.node, 'div', `filter-name`, '');
         const filterTitleName = new Control(filterByName.node, 'h4', 'filter-title', 'Поиск');
-        const filterInput = new Control(filterByName.node, 'input', 'filter-input', '');
-        filterInput.node.setAttribute('placeholder', 'Введите текст')
-        filterInput.node.setAttribute('type', 'text')
-        filterInput.node.focus();
+        this.filterInput = new Control(filterByName.node, 'input', 'filter-input', '');
+        this.filterInput.node.setAttribute('placeholder', 'Введите текст')
+        this.filterInput.node.setAttribute('type', 'text')
+        this.filterInput.node.setAttribute('id', 'input')
+        this.filterInput.node.focus();
         const filterTitleSorting = new Control(filterBlocksThree.node, 'h4', 'filter-title', 'Сортировка');
         const filterFormSorting = new Control(filterBlocksThree.node, 'form', 'filter-form', '');
         const filterAlphabetASorting = new Control(filterFormSorting.node, 'div', 'filter-sorting', '');
@@ -155,10 +182,10 @@ export class StorePage extends Control  {
     public card(modelData: IData[]){
         this.cardsCont = new Control (this.node, 'div','cards-cont','');
         let cont: number;
+        let i:number;
         this.counter = new Control(this.node, 'div', 'counter', `${cont=0}`);
-        this.model.dataUrl.forEach(data=>{
+        modelData.forEach(data=>{
             const cards = new Control (this.cardsCont.node, 'div','cards','');
-            cards.node.setAttribute('id', 'cards');
             cards.node.onclick = () => {
                 if (!cards.node.classList.contains("cards-plus")){
                     cards.node.classList.add('cards-plus')
@@ -181,9 +208,6 @@ export class StorePage extends Control  {
             new Control(cards.node, 'div','cardsFavorite',`Популярность: ${cardFavorite}`)
             new Control(cards.node, 'div','cardsSize',`Размер: ${data.size}`)
             })
-        
-        
-        
     }
 
     private footer(){
@@ -194,32 +218,140 @@ export class StorePage extends Control  {
         footerAnchorRS.node.setAttribute('href', 'https://rs.school/')
         footerAnchorRSS.node.setAttribute('href', 'https://rollingscopes.com/')
     }
+
+    public filterByName(){
+        this.buttonTypeOne.node.onclick = () =>{
+        // setTimeout(() => {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.shape == this.filterAll.name[0]
+            });
+
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonTypeTwo.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.shape == this.filterAll.name[1]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonTypeThree.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.shape == this.filterAll.name[2]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonTypeFour.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.shape == this.filterAll.name[3]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonType5.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.shape == this.filterAll.name[4]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonType6.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.shape == this.filterAll.name[5]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonType7.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.shape == this.filterAll.name[6]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonColorOne.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.strength == this.filterAll.strenght[0]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonColorTwo.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.strength == this.filterAll.strenght[1]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonColorThree.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.strength == this.filterAll.strenght[2]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonSizeOne.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.cooler == this.filterAll.cooler[0]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonSizeTwo.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.cooler == this.filterAll.cooler[1]
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+        this.buttonPopular.node.onclick = ()=> {
+            const filterByName = this.model.dataUrl.filter((card)=>{
+                return card.favorite == true
+            });
+            this.cardsCont.destroy();
+            this.counter.destroy();
+            this.card(filterByName);
+            console.log(filterByName)
+        }
+    }
+    poisk (){
+        const d= (document.getElementById('input') as HTMLInputElement).value
+        
+    }
 }
 
 
 export class Filter extends StorePage{
-    filterAll: Filters;
-    buttonTypeOne!: Control<HTMLElement>;
+   
     constructor(parrentNode: HTMLElement, model: DataModel){
         super(parrentNode, model);
-        const filterAll = {
-            name: ['Brusko','Glith Souse', 'Fruit Fresh', 'MaxWells', 'XL', 'BOOM BIG', 'ICE PARADISE'],
-            strenght: [20, 40, 50],
-            cooler: ['с куллером', 'без куллера'],
-            favorite: [true, false]
-        }
-        this.filterAll = filterAll;
-        this.filterByName();
+        
     }
-    public filterByName(){
-        this.buttonTypeOne.node.onclick = () =>{
-        setTimeout(() => {
-            const filterByName = this.model.dataUrl.filter((card)=>{
-                // return card.name = this.filterAll.name
-                return card.name = 'Brusko'
-            });
-            this.card(filterByName);
-            console.log(filterByName)
-        }, 100);}
-    }
+    
 }   
